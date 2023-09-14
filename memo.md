@@ -56,3 +56,13 @@ services:
 docker-compose up --build -d
 を実行して
 localhost:8080 で json がブラウザに表示されることを確認する
+
+### docker + go でホットリロード
+
+docker を都度 build しなおさないとコードの変更が反映されないのはきついので、
+ホットリロードして、コードの変更がすぐに反映されるようにする
+air.toml を使う。
+
+Dockerfile 内で air をインストール。
+air の初期化（docker-compose run --rm app air init）→ これで.air.toml ファイルが作成される
+docker-compose up で起動して、コードを変更してみて、リロードすることで反映されるのを確認
