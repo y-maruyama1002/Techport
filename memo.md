@@ -66,3 +66,47 @@ air.toml を使う。
 Dockerfile 内で air をインストール。
 air の初期化（docker-compose run --rm app air init）→ これで.air.toml ファイルが作成される
 docker-compose up で起動して、コードを変更してみて、リロードすることで反映されるのを確認
+
+### gorm を使った mysql とのコネクション
+
+```yaml
+db:
+  image: mysql:8.1.0
+  environment:
+    - MYSQL_DATABASE=root
+    - MYSQL_ROOT_PASSWORD=password
+  volumes:
+    - "data-base:/var/lib/mysql"
+  command: mysqld --default-authentication-plugin=caching_sha2_password
+  ports:
+    - 3306:3306
+```
+
+docker-compose で mysql のコンテナを作成
+
+main.go に gorm をインストール
+
+```
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/mysql
+```
+
+コネクション情報を記載
+tcp(db)の db 部分は docker のコンテナ名を指定する
+docker を使っていない場合は 127.0.0.1:3306 でいけるけど、コンテナ使ってる場合はコンテナ名でないとうまくいかない
+
+```go
+Product structureを使ってテーブルをマイグレートしてくれる
+db.AutoMigrate(&Product{})
+// Create
+db.Create(&Product{Code: "D43", Price: 200})
+
+var product Product
+// 一件取り出し
+db.First(&product, 1)
+fmt.Println("check the value")
+fmt.Println(product.Code)
+//  D42
+fmt.Println(product.Price)
+// 100
+```
