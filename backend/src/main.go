@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gin-gonic/gin"
+	"github.com/y-maruyama1002/Techport/infrastructure"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -35,11 +35,5 @@ func main() {
 	  fmt.Println(product.Price)
 	  // 100
 
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-	  c.JSON(200, gin.H {
-		"message": "pong!!!",
-	  })
-	})
-	r.Run(":3000")
+	infrastructure.Router.Run(":3000")
 }
