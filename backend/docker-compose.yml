@@ -19,7 +19,6 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - "data-base:/var/lib/mysql"
-    command: mysqld --default-authentication-plugin=caching_sha2_password
     ports:
       - 3306:3306
 

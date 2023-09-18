@@ -4,42 +4,38 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/y-maruyama1002/Techport/router"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-type Product struct {
+type Blog struct {
 	gorm.Model
-	Code  string
-	Price uint
+	Title  string
+	Body string
   }
 
 func main() {
+	engine := gin.Default()
+
 	dsn := "root:password@tcp(db)/root?charset=utf8mb4&parseTime=True&loc=Local"
-  	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+  	dbEngine, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
 
-	  // Migrate the schema
-	  db.AutoMigrate(&Product{})
+	// Migrate the schema
+	dbEngine.AutoMigrate(&Blog{})
 
-	  // Create
-	  db.Create(&Product{Code: "D43", Price: 200})
+	// Create
+	// dbEngine.Create(&Blog{Title: "this is title", Body: "this is body"})
 
-	  var product Product
-	  db.First(&product, 1)
-	  fmt.Println("check the value")
-	  fmt.Println(product.Code)
-	  //  D42
-	  fmt.Println(product.Price)
-	  // 100
+	var blog Blog
+	dbEngine.First(&blog, 3)
+	fmt.Println("check the value")
+	fmt.Println(blog.Title)
+	fmt.Println(blog.Body)
 
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-	  c.JSON(200, gin.H {
-		"message": "pong!!!",
-	  })
-	})
-	r.Run(":3000")
+	router.SetRoutes(engine, dbEngine)
+	engine.Run(":3000")
 }

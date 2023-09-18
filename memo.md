@@ -110,3 +110,10 @@ fmt.Println(product.Code)
 fmt.Println(product.Price)
 // 100
 ```
+
+### アーキテクチャ構成
+
+https://qiita.com/ryoh07/items/8ebac006c5294b9b3f58
+を元に作成してみる
+ただし、使う orm は gorm
+handler ではなく controller とする
