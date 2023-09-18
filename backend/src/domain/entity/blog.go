@@ -1,7 +1,9 @@
 package entity
 
+import "gorm.io/gorm"
+
 type Blog struct {
-	Id string
+	gorm.Model
 	Title string
 	Body string
 }
