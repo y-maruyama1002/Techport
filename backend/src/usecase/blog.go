@@ -2,11 +2,13 @@ package usecase
 
 import (
 	"github.com/y-maruyama1002/Techport/common/dto"
+	"github.com/y-maruyama1002/Techport/domain/entity"
 	"github.com/y-maruyama1002/Techport/domain/repository"
 )
 
 type BlogInputPort interface {
 	GetBlog(blogId string) (*dto.Blog, error)
+	CreateBlog(blog *dto.Blog) error
 }
 
 
@@ -24,6 +26,12 @@ func (s *blogInteractor) GetBlog(blogId string) (*dto.Blog, error) {
 		return nil, err
 	}
 
-	blogD := dto.NewBlog(blogE.Id, blogE.Title, blogE.Body)
+	blogD := dto.NewBlog(blogE.ID, blogE.Title, blogE.Body)
 	return blogD, nil
+}
+
+func (s *blogInteractor) CreateBlog(blog *dto.Blog) error {
+	blogE := entity.NewInBlog(blog.Title, blog.Body)
+	s.IBlogRepository.CreateBlog(blogE)
+	return nil
 }

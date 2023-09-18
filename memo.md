@@ -117,3 +117,22 @@ https://qiita.com/ryoh07/items/8ebac006c5294b9b3f58
 を元に作成してみる
 ただし、使う orm は gorm
 handler ではなく controller とする
+
+流れ
+main→router→di
+di では repository、interactor, controller を順に生成していき、controller の struct を返す
+このとき、interactor は repository を、controller を interactor を引数にとって作成されるため、
+controller は interactor を実行できて、interactor は repository を実行できるようにする準備ができる
+di によって返された controller を router でパスに紐づけて実行させる
+controller が実行されて、controller ではパラメータを受け取って、interactor を起動する
+interactor は repository を起動する
+repository はデータベースにアクセスして値を取り出して interactor に返す。
+interactor は値を受け取って、dto を使って、整形する。整形したものを controller に返す
+controller はそれを json 形式で返す
+
+### go の create の api
+
+流れは同じ。
+難しかったのは gorm での挙動。
+entity の struct に gorm.Model を入れるということは ID, CreatedAt, UpdatedAt, DeletedAt を指定していることの暗黙。これを使ってみせるとき、作成するときを実装する
+作成するときは id を指定しなくても auto increment をしてくれる gorm の挙動を利用している

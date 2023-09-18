@@ -1,14 +1,14 @@
 package dto
 
 type Blog struct {
-	Id string `json:id`
+	ID uint
 	Title string `json:title`
 	Body string `json:body`
 }
 
-func NewBlog(id string, title string, body string) *Blog {
+func NewBlog(id uint, title string, body string) *Blog {
 	return &Blog {
-		Id: id,
+		ID: id,
 		Title: title,
 		Body: body,
 	}

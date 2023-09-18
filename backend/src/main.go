@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/y-maruyama1002/Techport/router"
 	"gorm.io/driver/mysql"
@@ -27,14 +25,8 @@ func main() {
 	// Migrate the schema
 	dbEngine.AutoMigrate(&Blog{})
 
-	// Create
-	// dbEngine.Create(&Blog{Title: "this is title", Body: "this is body"})
-
 	var blog Blog
 	dbEngine.First(&blog, 3)
-	fmt.Println("check the value")
-	fmt.Println(blog.Title)
-	fmt.Println(blog.Body)
 
 	router.SetRoutes(engine, dbEngine)
 	engine.Run(":3000")
