@@ -136,3 +136,12 @@ controller はそれを json 形式で返す
 難しかったのは gorm での挙動。
 entity の struct に gorm.Model を入れるということは ID, CreatedAt, UpdatedAt, DeletedAt を指定していることの暗黙。これを使ってみせるとき、作成するときを実装する
 作成するときは id を指定しなくても auto increment をしてくれる gorm の挙動を利用している
+
+いろいろしんどくなったので参考にするリポジトリを変更する
+
+https://gist.github.com/mpppk/609d592f25cab9312654b39f1b357c60
+https://github.com/bxcodec/go-clean-arch
+
+middleware や test に関しての実装もある。獲得されているスターの数も多い
+
+backend2 を作成してそっちでしばらく開発を続けるようにする
