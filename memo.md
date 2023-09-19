@@ -145,3 +145,12 @@ https://github.com/bxcodec/go-clean-arch
 middleware や test に関しての実装もある。獲得されているスターの数も多い
 
 backend2 を作成してそっちでしばらく開発を続けるようにする
+
+### アーキテクチャ設計
+
+ドメイン名のディレクトを作成してその中に
+route, handler repository usecase が入る。
+interface やモデル名とマッチさせる構造体は domain ディレクトリに入れる。
+ドメイン名のディレクトリの流れは
+handler→usecase→repository
+の順番。これらの中で domain からモデルを都度呼び出している

@@ -7,6 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/y-maruyama1002/Techport/blogs/delivery/http"
+	"github.com/y-maruyama1002/Techport/blogs/repository/mysql"
+	"github.com/y-maruyama1002/Techport/blogs/usecase"
 )
 
 type Blog struct {
@@ -43,5 +46,11 @@ func main() {
       "message": "pppppppp",
     })
   })
+
+
+  blgRepo := mysql.NewMysqlBlogRepository(db)
+  blgUcase := usecase.NewBlogUsecase(blgRepo)
+  http.NewBlogHandler(r, blgUcase)
+
   r.Run()
 }
