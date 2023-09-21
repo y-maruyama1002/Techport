@@ -57,3 +57,22 @@ func (r *mysqlBlogRepository) GetById(id int64) (res domain.Blog, err error) {
 	}
 	return
 }
+
+func (r *mysqlBlogRepository) CreateBlog(blog *domain.CreateBlog) error {
+	fmt.Println("your on the repo!")
+	fmt.Println(blog)
+	timeNow := time.Now()
+	query := `
+	INSERT INTO blogs (title, body, created_at, updated_at)
+	VALUES (?, ?, ?, ?)
+	`
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	res, err := r.Conn.ExecContext(ctx, query, blog.Title, blog.Body, timeNow, timeNow)
+	fmt.Println(res)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
+}

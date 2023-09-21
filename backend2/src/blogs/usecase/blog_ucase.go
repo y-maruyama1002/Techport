@@ -21,3 +21,10 @@ func (u *blogUsecase) GetById(id int64) (res domain.Blog, err error) {
 	}
 	return
 }
+
+func (u *blogUsecase) CreateBlog(blog *domain.CreateBlog) error {
+	// titleで存在性のチェック
+
+	err := u.blogRepo.CreateBlog(blog)
+	return err
+}
