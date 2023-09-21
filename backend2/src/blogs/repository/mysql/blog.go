@@ -88,3 +88,18 @@ func (r *mysqlBlogRepository) UpdateBlog(blog *domain.Blog) (err error) {
 	}
 	return
 }
+
+func (r *mysqlBlogRepository) DeleteBlog(blog *domain.Blog) (err error) {
+	query := `
+	DELETE FROM blogs WHERE id = ?;
+	`
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	_, err = r.Conn.ExecContext(ctx, query, blog.ID)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+
+	return
+}

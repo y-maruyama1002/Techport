@@ -31,5 +31,10 @@ func (u *blogUsecase) CreateBlog(blog *domain.CreateBlog) error {
 
 func(u *blogUsecase) UpdateBlog(blog *domain.Blog) (err error) {
 	err = u.blogRepo.UpdateBlog(blog)
-	return err
+	return
+}
+
+func (u *blogUsecase) DeleteBlog(blog *domain.Blog) (err error) {
+	err = u.blogRepo.DeleteBlog(blog)
+	return
 }

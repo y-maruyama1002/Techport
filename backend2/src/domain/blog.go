@@ -19,10 +19,12 @@ type BlogRepository interface {
 	GetById(id int64) (Blog, error)
 	CreateBlog(blog *CreateBlog) error
 	UpdateBlog(blog *Blog) error
+	DeleteBlog(blog *Blog) error
 }
 
 type BlogUsecase interface {
 	GetById(id int64) (Blog, error)
 	CreateBlog(blog *CreateBlog) error
 	UpdateBlog(blog *Blog) error
+	DeleteBlog(blog *Blog) error
 }
