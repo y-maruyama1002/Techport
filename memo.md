@@ -154,3 +154,22 @@ interface やモデル名とマッチさせる構造体は domain ディレク�
 ドメイン名のディレクトリの流れは
 handler→usecase→repository
 の順番。これらの中で domain からモデルを都度呼び出している
+
+### CRUD の実装
+
+最後に c.JSON を書かないときは何も返さない 200 レスポンスになる
+
+```go
+func (u *blogUsecase) GetById(id int64) (res domain.Blog, err error) {
+	res, err = u.blogRepo.GetById(id)
+	if err != nil {
+		return
+	}
+	return
+}
+```
+
+みたいに、レスポンス値を変数名とセットで定義すると
+関数の中身ではその変数は最初から定義された変数として扱える。
+また、
+ただの return だったとしてもその両変数が暗黙的に return される
