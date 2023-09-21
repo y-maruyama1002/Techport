@@ -42,6 +42,14 @@ func (r *mysqlBlogRepository) fetch(query string, args ...interface{}) (result [
 	return result, nil
 }
 
+func (r *mysqlBlogRepository) GetAll() (res []domain.Blog, err error) {
+	query := `
+	SELECT * FROM blogs;
+	`
+	res, err = r.fetch(query)
+	return
+}
+
 func (r *mysqlBlogRepository) GetById(id int64) (res domain.Blog, err error) {
 	query := "SELECT id, title, body, created_at, updated_at FROM blogs WHERE id = ?"
 	list, err := r.fetch(query, id)

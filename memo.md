@@ -173,3 +173,12 @@ func (u *blogUsecase) GetById(id int64) (res domain.Blog, err error) {
 関数の中身ではその変数は最初から定義された変数として扱える。
 また、
 ただの return だったとしてもその両変数が暗黙的に return される
+
+gin で get のクエリパラメータを取る
+
+```go
+// localhost:3000/api/v1/blogs?num=10
+num := c.Query("num")
+fmt.Println(num)
+// 10
+```

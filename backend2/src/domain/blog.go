@@ -16,6 +16,7 @@ type CreateBlog struct {
 }
 
 type BlogRepository interface {
+	GetAll() ([]Blog, error)
 	GetById(id int64) (Blog, error)
 	CreateBlog(blog *CreateBlog) error
 	UpdateBlog(blog *Blog) error
@@ -23,6 +24,7 @@ type BlogRepository interface {
 }
 
 type BlogUsecase interface {
+	GetAll() ([]Blog, error)
 	GetById(id int64) (Blog, error)
 	CreateBlog(blog *CreateBlog) error
 	UpdateBlog(blog *Blog) error

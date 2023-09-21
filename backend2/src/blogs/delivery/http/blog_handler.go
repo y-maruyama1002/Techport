@@ -16,11 +16,24 @@ func NewBlogHandler(engine *gin.Engine, blgUcase domain.BlogUsecase) {
 	handler := &BlogHandler{
 		BlgUsecase: blgUcase,
 	}
+	engine.GET("api/v1/blogs", handler.GetAll)
 	engine.GET("api/v1/blogs/:id", handler.GetById)
 	engine.POST("api/v1/blogs", handler.CreateBlog)
 	engine.PUT("api/v1/blogs/:id", handler.UpdateBlog)
 	engine.DELETE("api/v1/blogs/:id", handler.DeleteBlog)
 }
+
+func (h *BlogHandler) GetAll(c *gin.Context) {
+	blogs, err := h.BlgUsecase.GetAll()
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": "cant get blogs",
+		})
+		return
+	}
+	c.JSON(200, blogs)
+}
+
 
 func (h *BlogHandler) GetById(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)

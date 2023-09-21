@@ -14,6 +14,11 @@ func NewBlogUsecase(blg domain.BlogRepository) domain.BlogUsecase {
 	}
 }
 
+func (u *blogUsecase) GetAll() (res []domain.Blog, err error) {
+	res, err = u.blogRepo.GetAll()
+	return
+}
+
 func (u *blogUsecase) GetById(id int64) (res domain.Blog, err error) {
 	res, err = u.blogRepo.GetById(id)
 	if err != nil {
