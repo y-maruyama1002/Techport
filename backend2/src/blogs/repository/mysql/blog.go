@@ -36,7 +36,6 @@ func (r *mysqlBlogRepository) fetch(query string, args ...interface{}) (result [
 		if err != nil {
 			logrus.Error(err)
 		}
-		fmt.Println(result)
 		result = append(result, t)
 	}
 
@@ -59,8 +58,6 @@ func (r *mysqlBlogRepository) GetById(id int64) (res domain.Blog, err error) {
 }
 
 func (r *mysqlBlogRepository) CreateBlog(blog *domain.CreateBlog) error {
-	fmt.Println("your on the repo!")
-	fmt.Println(blog)
 	timeNow := time.Now()
 	query := `
 	INSERT INTO blogs (title, body, created_at, updated_at)
@@ -68,11 +65,26 @@ func (r *mysqlBlogRepository) CreateBlog(blog *domain.CreateBlog) error {
 	`
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	res, err := r.Conn.ExecContext(ctx, query, blog.Title, blog.Body, timeNow, timeNow)
-	fmt.Println(res)
+	_, err := r.Conn.ExecContext(ctx, query, blog.Title, blog.Body, timeNow, timeNow)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 	return nil
+}
+
+func (r *mysqlBlogRepository) UpdateBlog(blog *domain.Blog) (err error) {
+	timeNow := time.Now()
+	query := `
+	UPDATE blogs SET title = ?, body = ?, updated_at = ?
+	WHERE id = ?;
+	`
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	_, err = r.Conn.ExecContext(ctx, query, blog.Title, blog.Body, timeNow, blog.ID)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	return
 }

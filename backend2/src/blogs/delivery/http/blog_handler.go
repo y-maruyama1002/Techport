@@ -18,6 +18,7 @@ func NewBlogHandler(engine *gin.Engine, blgUcase domain.BlogUsecase) {
 	}
 	engine.GET("api/v1/blogs/:id", handler.GetById)
 	engine.POST("api/v1/blogs", handler.CreateBlog)
+	engine.PUT("api/v1/blogs/:id", handler.UpdateBlog)
 }
 
 func (h *BlogHandler) GetById(c *gin.Context) {
@@ -39,6 +40,25 @@ func (h *BlogHandler) CreateBlog(c *gin.Context) {
 	if err := h.BlgUsecase.CreateBlog(&blog); err != nil {
 		c.JSON(500, gin.H{
 			"message": fmt.Sprintf("cant get blog by %v", err),
+		})
+	}
+	c.JSON(200, blog)
+}
+
+func (h *BlogHandler) UpdateBlog(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	blog, err := h.BlgUsecase.GetById(id)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": fmt.Sprintf("cant get blog from id: %d, error is %v", id, err),
+		})
+	}
+	if err := c.Bind(&blog); err != nil {
+		fmt.Printf("err:%v", err)
+	}
+	if err := h.BlgUsecase.UpdateBlog(&blog); err != nil {
+		c.JSON(500, gin.H{
+			"message": fmt.Sprintf("cant update blog %v", err),
 		})
 	}
 	c.JSON(200, blog)

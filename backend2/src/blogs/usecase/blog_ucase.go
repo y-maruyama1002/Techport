@@ -28,3 +28,8 @@ func (u *blogUsecase) CreateBlog(blog *domain.CreateBlog) error {
 	err := u.blogRepo.CreateBlog(blog)
 	return err
 }
+
+func(u *blogUsecase) UpdateBlog(blog *domain.Blog) (err error) {
+	err = u.blogRepo.UpdateBlog(blog)
+	return err
+}
