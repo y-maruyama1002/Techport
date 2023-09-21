@@ -136,3 +136,49 @@ controller はそれを json 形式で返す
 難しかったのは gorm での挙動。
 entity の struct に gorm.Model を入れるということは ID, CreatedAt, UpdatedAt, DeletedAt を指定していることの暗黙。これを使ってみせるとき、作成するときを実装する
 作成するときは id を指定しなくても auto increment をしてくれる gorm の挙動を利用している
+
+いろいろしんどくなったので参考にするリポジトリを変更する
+
+https://gist.github.com/mpppk/609d592f25cab9312654b39f1b357c60
+https://github.com/bxcodec/go-clean-arch
+
+middleware や test に関しての実装もある。獲得されているスターの数も多い
+
+backend2 を作成してそっちでしばらく開発を続けるようにする
+
+### アーキテクチャ設計
+
+ドメイン名のディレクトを作成してその中に
+route, handler repository usecase が入る。
+interface やモデル名とマッチさせる構造体は domain ディレクトリに入れる。
+ドメイン名のディレクトリの流れは
+handler→usecase→repository
+の順番。これらの中で domain からモデルを都度呼び出している
+
+### CRUD の実装
+
+最後に c.JSON を書かないときは何も返さない 200 レスポンスになる
+
+```go
+func (u *blogUsecase) GetById(id int64) (res domain.Blog, err error) {
+	res, err = u.blogRepo.GetById(id)
+	if err != nil {
+		return
+	}
+	return
+}
+```
+
+みたいに、レスポンス値を変数名とセットで定義すると
+関数の中身ではその変数は最初から定義された変数として扱える。
+また、
+ただの return だったとしてもその両変数が暗黙的に return される
+
+gin で get のクエリパラメータを取る
+
+```go
+// localhost:3000/api/v1/blogs?num=10
+num := c.Query("num")
+fmt.Println(num)
+// 10
+```
