@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS blogs
+
 CREATE TABLE blogs (
   id int(11) NOT NULL AUTO_INCREMENT,
   title varchar(45) NOT NULL,
