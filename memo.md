@@ -182,3 +182,26 @@ num := c.Query("num")
 fmt.Println(num)
 // 10
 ```
+
+### next の開発
+
+npx create-next-app@latest frontend
+でアプリの作成
+
+```
+$ npx create-next-app@latest frontend
+Need to install the following packages:
+  create-next-app@13.5.2
+Ok to proceed? (y) y
+✔ Would you like to use TypeScript? … No / Yes
+✔ Would you like to use ESLint? … No / Yes
+✔ Would you like to use Tailwind CSS? … No / Yes
+✔ Would you like to use `src/` directory? … No / Yes
+✔ Would you like to use App Router? (recommended) … No / Yes
+✔ Would you like to customize the default import alias? … No / Yes
+```
+
+global.css は全てのページで適用される
+.module.css は特定のものに割り当てるもの
+npm run dev
+localhost:3000 で next のランディングページが出れば成功
