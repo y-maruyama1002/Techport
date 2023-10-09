@@ -1,22 +1,15 @@
+import { Blog } from "@/features/blogs/types";
 import { error } from "console";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-interface Blog {
-  id: number;
-  title: string;
-  body: string;
-  created_at: Date;
-  updated_at: Date;
-}
 
 type Props = {
   blogs: Blog[];
 };
 
 export async function getStaticProps() {
-  const res = await fetch("http://172.24.0.1:3000/api/v1/blogs");
+  const res = await fetch(`${process.env.BACKEND_URL}/blogs`);
   const blogs = await res.json();
   return {
     props: {
