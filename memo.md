@@ -205,3 +205,12 @@ global.css は全てのページで適用される
 .module.css は特定のものに割り当てるもの
 npm run dev
 localhost:3000 で next のランディングページが出れば成功
+
+### next.js のアーキテクチャ設計
+
+https://github.com/alan2207/bulletproof-react
+を参考にやってみる
+
+解説はこの辺
+https://note.com/ryoppei/n/n2e3e7a66e758
+https://zenn.dev/motonosuke/articles/8f4ba3714f30fe
