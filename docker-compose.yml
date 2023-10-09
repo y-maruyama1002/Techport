@@ -1,19 +1,15 @@
 version: "3.8.1"
 
 services:
-  frontend:
-    build:
-      context: ./frontend/
-      dockerfile: Dockerfile
-    container_name: frontend
-    ports:
-      - "8000:8000"
+  db:
+    image: mysql:8.1.0
+    environment:
+      - MYSQL_DATABASE=root
+      - MYSQL_ROOT_PASSWORD=password
     volumes:
-      - ./frontend:/frontend/app
-    command: "npm run dev"
-    depends_on:
-      - backend
-    tty: true
+      - "data-base:/var/lib/mysql"
+    ports:
+      - 3306:3306
 
   backend:
     build:
@@ -28,15 +24,19 @@ services:
       - db
     tty: true
 
-  db:
-    image: mysql:8.1.0
-    environment:
-      - MYSQL_DATABASE=root
-      - MYSQL_ROOT_PASSWORD=password
-    volumes:
-      - "data-base:/var/lib/mysql"
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    container_name: frontend
     ports:
-      - 3306:3306
+      - "8000:8000"
+    volumes:
+      - ./frontend:/frontend/app
+    command: "npm run dev"
+    depends_on:
+      - backend
+    tty: true
 
 volumes:
   data-base:
