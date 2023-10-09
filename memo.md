@@ -214,3 +214,13 @@ https://github.com/alan2207/bulletproof-react
 解説はこの辺
 https://note.com/ryoppei/n/n2e3e7a66e758
 https://zenn.dev/motonosuke/articles/8f4ba3714f30fe
+
+### frontend と backend の通信
+
+これまで、"http://172.24.0.1:3000/api/v1"を使ってなんとかGETはできていたが、POSTができなくなった。
+エラーはランタイムエラー。
+axios を使うと host を localhost にすると通信できる。なぜ？
+とはいえ、front から back への通信で CORS 制限がかかったので、
+"github.com/gin-contrib/cors"を入れて、ゆるゆるで対応
+
+docker の network に front, back を入れるのはあまり得策じゃないのかなぁ

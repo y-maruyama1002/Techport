@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch(`${process.env.BACKEND_URL}/blogs`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`);
 
   const blogs: Blog[] = await res.json();
   const paths = blogs.map((blog) => {
@@ -23,7 +23,9 @@ export const getStaticPaths = async () => {
 };
 
 export async function getStaticProps({ params }: { params: { id: string } }) {
-  const res = await fetch(`${process.env.BACKEND_URL}/blogs/${params.id}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${params.id}`
+  );
   const blog = await res.json();
   return { props: { blog }, revalidate: 60 };
 }
