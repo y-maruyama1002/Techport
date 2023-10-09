@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/y-maruyama1002/Techport/blogs/delivery/http"
@@ -41,6 +42,7 @@ func main() {
   }
 
 	r := gin.Default()
+  r.Use(cors.Default())
   r.GET("/ping", func(c *gin.Context) {
     c.JSON(200, gin.H{
       "message": "pppppppp",

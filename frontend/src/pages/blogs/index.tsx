@@ -9,7 +9,7 @@ type Props = {
 };
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.BACKEND_URL}/blogs`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`);
   const blogs = await res.json();
   return {
     props: {
@@ -23,6 +23,11 @@ export default function BlogIndex({ blogs }: Props) {
   return (
     <div className="p-20">
       <h1 className="text-3xl font-bold mb-4">Blogs</h1>
+      <Link href="blogs/new">
+        <button className="px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+          create blog
+        </button>
+      </Link>
       {blogs.map((blog) => (
         <div
           key={blog.id}
