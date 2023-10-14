@@ -1,5 +1,6 @@
 import { Blog } from "@/features/blogs/types";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 type Props = {
   blog: Blog;
@@ -55,12 +56,12 @@ const ShowBlog = ({ blog }: Props) => {
 
         <div>
           <div className="flex items-center mt-2 text-gray-700 dark:text-gray-200">
-            <a
+            <Link
+              href={`edit/${blog.id}`}
               className="mx-2 text-blue-600 cursor-pointer dark:text-blue-400 hover:underline"
-              role="link"
             >
               edit
-            </a>
+            </Link>
             <a
               className="mx-2 text-red-600 cursor-pointer dark:text-blue-400 hover:underline"
               role="link"
