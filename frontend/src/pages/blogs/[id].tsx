@@ -1,5 +1,7 @@
 import { Blog } from "@/features/blogs/types";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import axios from "axios";
 
 type Props = {
   blog: Blog;
@@ -18,7 +20,7 @@ export const getStaticPaths = async () => {
   });
   return {
     paths,
-    fallback: true, // false or "blocking"
+    fallback: true,
   };
 };
 
@@ -32,6 +34,16 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
 
 const ShowBlog = ({ blog }: Props) => {
   const router = useRouter();
+
+  const handleDelete = async (blogId: number) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/v1/blogs/${blog.id}`);
+      router.reload();
+    } catch (err) {
+      alert(`failed to delete blog: ${err}`);
+    }
+  };
+
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
@@ -55,15 +67,16 @@ const ShowBlog = ({ blog }: Props) => {
 
         <div>
           <div className="flex items-center mt-2 text-gray-700 dark:text-gray-200">
-            <a
+            <Link
+              href={`edit/${blog.id}`}
               className="mx-2 text-blue-600 cursor-pointer dark:text-blue-400 hover:underline"
-              role="link"
             >
               edit
-            </a>
+            </Link>
             <a
               className="mx-2 text-red-600 cursor-pointer dark:text-blue-400 hover:underline"
               role="link"
+              onClick={() => handleDelete(blog.id)}
             >
               delete
             </a>
